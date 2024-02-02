@@ -1,0 +1,26 @@
+---
+# tasks file for web
+- name: installing the {{ web }} packages
+  package:
+    name: "{{ item }}"
+    state: latest
+  loop: "{{ web }}"
+
+- name: starting the {{ web }} services
+  service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  loop: "{{ web }}"
+
+- name: creating the index.html under /var/www/html/index.html
+  template:
+    src: index.j2
+    dest: /var/www/html/index.html
+
+- name: adding the http service under firewalld
+  ansible.posix.firewalld:
+    service: http
+    permanent: yes
+    state: enabled
+    immediate: yes

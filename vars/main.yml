@@ -1,0 +1,5 @@
+---
+# vars file for web
+web:
+  - httpd
+  - firewalld
